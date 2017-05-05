@@ -8,5 +8,5 @@ WORKDIR /playbook
 ADD playbook /playbook
 
 ## Assume the playbook is called deploy in the playbook dir
-ENTRYPOINT ["ansible-playbook"]
-CMD ["-i","hosts","deploy.yml"]
+ENTRYPOINT ["ansible-playbook","-i","hosts"]
+CMD ["deploy.yml"]
