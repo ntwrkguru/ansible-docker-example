@@ -2,7 +2,9 @@
 
 In a nutshell, we wrap an Ansible playbook in a Dockerfile so that the end user need not know Ansible nor Docker. They can simply copy and paste 2 commands to execute a playbook. If the playbook is self-contained and passed around easy, say via email or file transfer, it's even easier to accomplish (see example #2)
 
-## Example 1
+## Examples
+
+### Example 1
 
 Here we have a playbook with hosts file and such. It could contain roles, vars, etc. We version control it in git. To execute the playbook, we first build the Docker image then run it.
 
@@ -45,7 +47,7 @@ PLAY RECAP *********************************************************************
 localhost                  : ok=2    changed=1    unreachable=0    failed=0
 ```
 
-## Example 2
+### Example 2
 
 If we were to distribute a simple playbook, this becomes even easier. From the directory that contains the playbook, run:
 
@@ -65,3 +67,26 @@ localhost                  : ok=2    changed=1    unreachable=0    failed=0
 ```
 
 The `-v $PWD:/playbook` switch bind mounts the current working dir (`$PWD`) to the `WORKDIR` of the container; `/playbook`. This will expose the playbook to the container's filesystem and allow Ansible to execute it.
+
+### Example 3
+
+We can also run a playbook that is not hard-coded in the Dockerfile by simply appending the `docker run` command with the playbook name:
+
+```bash
+$ docker run deploy foo
+
+PLAY [localhost] ***************************************************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [localhost]
+
+TASK [ping] ********************************************************************
+changed: [localhost]
+
+PLAY RECAP *********************************************************************
+localhost                  : ok=2    changed=1    unreachable=0    failed=0
+```
+
+## Updates
+
+To update the playbook or Dockerfile, simply make the changes and push your commits to git. The user can then simply rebuild with the `docker build` command above and have the updated version.
