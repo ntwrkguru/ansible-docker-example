@@ -4,3 +4,7 @@
   tasks:
   - name: smoke test
     setup:
+    register: results
+  - name: print results
+    debug:
+      var: results
