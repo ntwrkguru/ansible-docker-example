@@ -3,11 +3,14 @@ FROM python:slim
 ## We need Ansible, otherwise what's the point
 RUN pip install ansible
 
-## We set this so that the ENTRYPOINT and CMD happen here
-WORKDIR /project
+## We set this so that the ADD, ENTRYPOINT and CMD happen here
+WORKDIR /playbook
 
-## We set the /project dir as a volume to facilite bind mount at run time
-VOLUME /project
+## Add the playbook dir to the container for distribution
+ADD playbook/ .
+
+## We set the /playbook dir as a volume to facilite bind mount at run time
+VOLUME /playbook
 
 ENTRYPOINT ["ansible-playbook"]
 
