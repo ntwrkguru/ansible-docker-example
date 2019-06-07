@@ -1,12 +1,9 @@
-## Lightweight Ansible image (I use a custom image, but this one works)
-FROM williamyeh/ansible:alpine3
+FROM python:slim
 
-## Set a temp workdir
-WORKDIR /playbook
+RUN pip install ansible
 
-## This is the context of the git repository that holds the playbook(s) and ancillary files
-ADD playbook /playbook
+WORKDIR /project
 
-## Assume the playbook is called deploy in the playbook dir
+VOLUME /project
+
 ENTRYPOINT ["ansible-playbook"]
-CMD ["-i","hosts","deploy.yml"]
