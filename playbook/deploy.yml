@@ -2,6 +2,5 @@
 - hosts: localhost
   connection: local
   tasks:
-  - name: ping
-    command: "ping localhost -c 10"
-    register: results
+  - name: smoke test
+    setup:
